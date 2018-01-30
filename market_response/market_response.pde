@@ -1,14 +1,13 @@
 
-/* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
-/* ...  MSDS 6390 - Visualization of Information
-/* ...
-/* ...  Homework 3 - 27-jan-2018
-/* ...
-/* ...    patrick mcdevitt, sunna quazi, jack rasmus-vorrath
-/* ...
-/* ...  Dynamic Composition I 
- /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
- 
+/*
+ * ...  MSDS 6390 - Visualization of Information
+ * ...
+ * ...  Homework 3 - 27-jan-2018
+ * ...
+ * ...    patrick mcdevitt
+ * ...
+ * ...  Dynamic Composition I 
+ */
  
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 /* define global variables
@@ -52,7 +51,8 @@ float r = 0;
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 /* setup() routine
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
-
+//import gifAnimation.*;
+//Gif myAnimation;
 void setup()
 {
     size(1400, 800);
@@ -106,6 +106,9 @@ void setup()
         blu[j] = 100 + j * 20;  
     }
 
+    //gifExport = new GifMaker(this, "export.gif");
+    //gifExport.setRepeat(0);        // make it an "endless" animation
+    //gifExport.setTransparent(0,0,0);  // black is transparent
 }
 
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
@@ -115,7 +118,7 @@ void setup()
 void draw()
 {
     background(100, 100, 100);
-    
+    draw_wave();
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 /*     dynamic motion of stock response to market volume
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
@@ -143,7 +146,7 @@ void draw()
 /* ...    - column 5 in .csv is Adj.Close price
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
  
-     account_value = 1; //<>//
+     account_value = 1;
      for (int iqq = 0; iqq < valu.length; iqq++)
      {
          account_value += valu[iqq].getFloat(ir, 4) * shares[iqq] * 2;
@@ -190,9 +193,12 @@ void draw()
 /* ...    logo & text
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
+
     draw_cube();
     
     add_text();
+    
+
      
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 /* ...    ir = row count in Table data (each day is one row)
@@ -222,15 +228,26 @@ void draw_element(int j, float x, float y, float s, int r, int g, int b)
 
 void display_date()
 {
-    
-PFont f;
+ PFont f;
 String s = "";
+String s2 = "";
+String s3 = "";
 f = createFont("Ubuntu", int(0.04 * min(width, height)), true);
 textFont(f);
 textAlign(LEFT);
 smooth();
 fill(150, 150, 150);
 
-    s = valu[0].getString(ir, 0);
-    text(s, 3*width/4-50, height/2-50);
+   s = valu[0].getString(ir, 0);
+   s2 = "Portfolio Value";
+   s3 = "CR Ratio";
+   text(s, 3*width/4-50, height/2-50);
+   text(s2, 3*width/4-50, height/2-150);
+   text(s3, 3*width/4+200, height/2-150);
+   text("$", 3*width/4-65, height/2-100);
+   pushMatrix();
+   text(account_value*2E4, 3*width/4-50, height/2-100);
+   text((account_value*2E4)/5E6, 3*width/4+200, height/2-100);
+   popMatrix();
+
 }
